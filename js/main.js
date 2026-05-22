@@ -33,6 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!form || !button) return;
 
+  // Protección extra: evita que el formulario se enganche dos veces si el navegador
+  // carga el script repetido o si queda una versión antigua en caché.
+  if (form.dataset.jjSubmitBound === 'true' || window.__JJ_AUTONIVELANTES_FORM_BOUND__) return;
+  form.dataset.jjSubmitBound = 'true';
+  window.__JJ_AUTONIVELANTES_FORM_BOUND__ = true;
+
   const destinationEmail = 'ferranmendezcardona@gmail.com';
   let isSending = false;
   let lastSentSignature = '';
@@ -54,8 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function sendDirectRequest(event) {
-    if (event) event.preventDefault();
-    if (isSending) return;
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === 'function') {
+        event.stopImmediatePropagation();
+      }
+    }
+
+    if (isSending || button.disabled) return;
 
     const data = new FormData(form);
     const nombre = getCleanValue(data, 'nombre');
@@ -95,28 +108,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const signature = JSON.stringify({ nombre, telefono, email, preferencia, zona, tipo, mensaje });
     const now = Date.now();
 
-    // Evita que el mismo formulario se mande varias veces seguidas por doble clic,
-    // recarga rápida o varios eventos del navegador.
-    if (signature === lastSentSignature && now - lastSentAt < 15000) {
-      setMessage('La solicitud ya se está enviando. Espera unos segundos.', 'success');
+    if (signature === lastSentSignature && now - lastSentAt < 30000) {
+      setMessage('La solicitud ya se ha enviado. Espera unos segundos antes de mandar otra.', 'success');
       return;
     }
-
-    const payload = {
-      _subject: `Solicitud de presupuesto - ${nombre}`,
-      _template: 'table',
-      _captcha: 'false',
-      _replyto: email || destinationEmail,
-      email: email || destinationEmail,
-      Nombre: nombre,
-      Telefono: telefono || 'No indicado',
-      Email: email || 'No indicado',
-      'Preferencia de contacto': preferencia,
-      'Zona de la obra': zona || 'No indicado',
-      'Tipo de trabajo': tipo,
-      Detalles: mensaje || 'No indicado',
-      Origen: window.location.href
-    };
 
     isSending = true;
     lastSentSignature = signature;
@@ -126,14 +121,31 @@ document.addEventListener('DOMContentLoaded', () => {
     button.textContent = 'Enviando...';
     setMessage('Enviando solicitud...', '');
 
+    const payload = new URLSearchParams();
+    payload.append('_subject', `Solicitud de presupuesto - ${nombre}`);
+    payload.append('_template', 'table');
+    payload.append('_captcha', 'false');
+    payload.append('_replyto', email || destinationEmail);
+    payload.append('Nombre', nombre);
+    payload.append('Teléfono', telefono || 'No indicado');
+    payload.append('Email', email || 'No indicado');
+    payload.append('Preferencia de contacto', preferencia);
+    payload.append('Zona de la obra', zona || 'No indicado');
+    payload.append('Tipo de trabajo', tipo);
+    payload.append('Detalles', mensaje || 'No indicado');
+    payload.append('Origen', window.location.href);
+
     try {
+      // Importante: NO se usa JSON para evitar una petición previa CORS OPTIONS.
+      // Así FormSubmit recibe una sola petición POST y no duplica solicitudes.
       const response = await fetch(`https://formsubmit.co/ajax/${destinationEmail}`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
           'Accept': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: payload.toString(),
+        cache: 'no-store'
       });
 
       const result = await response.json().catch(() => ({}));
@@ -146,14 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
       setMessage('Solicitud enviada correctamente. Te contactaremos lo antes posible.', 'success');
     } catch (error) {
       setMessage('No se ha podido enviar automáticamente. Escríbenos a ferranmendezcardona@gmail.com.', 'error');
-    } finally {
       isSending = false;
       button.disabled = false;
       button.textContent = originalText;
+      return;
     }
+
+    setTimeout(() => {
+      isSending = false;
+      button.disabled = false;
+      button.textContent = originalText;
+    }, 3000);
   }
 
-  // El formulario se controla SOLO desde el evento submit.
-  // No añadimos listener al botón para evitar envíos duplicados.
-  form.addEventListener('submit', sendDirectRequest);
+  form.addEventListener('submit', sendDirectRequest, { capture: true });
 });
