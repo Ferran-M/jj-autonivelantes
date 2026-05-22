@@ -5,25 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Presupuesto | Autonivelantes J J Morales</title>
   <meta name="description" content="Especialistas en nivelación con autonivelante, hormigón aligerado, gunitado de piscinas y piscinas de arena. Más de 20 años a su servicio." />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
-
-    <main>
-      
+  <main>
       <header class="nav">
-        <a class="brand" href="index.html">
+        <a class="brand" href="../">
           <span>J&J</span>
           <div>
             <strong>Autonivelantes J J Morales</strong>
             <small>Más de 20 años a su servicio</small>
           </div>
         </a>
-        <nav aria-label="Navegación principal">
-          <a class="" href="servicios.html">Servicios</a>
-<a class="" href="proceso.html">Proceso</a>
-<a class="" href="trabajos.html">Trabajos</a>
-<a class="active budget-link" href="presupuesto.html">Presupuesto</a>
+        <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mainMenu"><span></span><span></span><span></span></button>
+        <nav id="mainMenu" aria-label="Navegación principal">
+          <a class="" href="../servicios/">Servicios</a> <a class="" href="../proceso/">Proceso</a> <a class="" href="../trabajos/">Trabajos</a> <a class="active budget-link" href="../presupuesto/">Presupuesto</a>
         </nav>
       </header>
       <section class="cta-band compact-band">
@@ -41,23 +37,14 @@
             <span>Email: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ferranmendezcardona%40gmail.com" target="_blank" rel="noopener noreferrer">ferranmendezcardona@gmail.com</a></span>
             <span>Especialidad: autonivelante, hormigón aligerado y piscinas</span>
           </div>
-          <div class="budget-badges">
-            <span>Sin compromiso</span>
-            <span>Mejor precio</span>
-            <span>Trato directo</span>
-          </div>
+          <div class="budget-badges"><span>Sin compromiso</span><span>Mejor precio</span><span>Trato directo</span></div>
         </div>
         <form id="contactForm" action="javascript:void(0)" novalidate>
           <input name="nombre" type="text" placeholder="Nombre" aria-label="Nombre" required />
           <input name="telefono" type="tel" placeholder="Teléfono" aria-label="Teléfono" required />
           <input name="zona" type="text" placeholder="Ciudad / zona de la obra" aria-label="Ciudad o zona de la obra" />
           <select name="tipo" aria-label="Tipo de trabajo" required>
-            <option value="" disabled selected>Tipo de trabajo</option>
-            <option>Autonivelante</option>
-            <option>Hormigón aligerado</option>
-            <option>Gunitado de piscina</option>
-            <option>Piscina de arena</option>
-            <option>Otro</option>
+            <option value="" disabled selected>Tipo de trabajo</option><option>Autonivelante</option><option>Hormigón aligerado</option><option>Gunitado de piscina</option><option>Piscina de arena</option><option>Otro</option>
           </select>
           <textarea name="mensaje" placeholder="Metros aproximados y detalles del trabajo" aria-label="Detalles del proyecto"></textarea>
           <button type="button" id="sendRequest">Enviar solicitud</button>
@@ -66,7 +53,7 @@
         </form>
       </section>
       <footer><strong>Autonivelantes J J Morales</strong><span>Nivelación, autonivelante, hormigón aligerado y piscinas.</span></footer>
-    </main>
-  <script src="js/main.js"></script>
+  </main>
+  <script src="../js/main.js"></script>
 </body>
 </html>

@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const nav = document.querySelector('.nav');
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mainMenu = document.querySelector('#mainMenu');
+
+  if (nav && menuToggle && mainMenu) {
+    menuToggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('nav-open');
+      menuToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    mainMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('nav-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
   const form = document.querySelector('#contactForm');
   const button = document.querySelector('#sendRequest');
   const feedback = document.querySelector('#formMessage');
@@ -29,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
       '',
       'Detalles:',
       mensaje || 'No indicado'
-    ].join('\n');
+    ].join('
+');
 
     const params = new URLSearchParams({
       view: 'cm',
@@ -41,15 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.open(`https://mail.google.com/mail/?${params.toString()}`, '_blank', 'noopener,noreferrer');
 
-    if (feedback) {
-      feedback.textContent = 'Se ha abierto Gmail con la solicitud preparada. Solo falta pulsar Enviar.';
-    }
+    if (feedback) feedback.textContent = 'Se ha abierto Gmail con la solicitud preparada. Solo falta pulsar Enviar.';
   }
 
   button.addEventListener('click', openGmailRequest);
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    openGmailRequest();
-  });
+  form.addEventListener('submit', (event) => { event.preventDefault(); openGmailRequest(); });
 });
