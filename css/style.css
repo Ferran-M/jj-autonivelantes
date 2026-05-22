@@ -182,3 +182,117 @@ html, body { overflow-x: hidden; }
   .service-grid article { min-height: 164px; }
   .project-grid { grid-auto-rows: 122px; }
 }
+
+/* Versión v8: aprovechar mejor el espacio en pantallas grandes */
+.service-strip {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+.service-strip span,
+.budget-badges span {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  font-weight: 950;
+  color: var(--dark);
+}
+.process-bottom {
+  margin: 28px auto 0;
+  max-width: 1040px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.process-bottom p { margin: 0; max-width: 680px; }
+.process-bottom .btn.primary { background: var(--orange); color: white; box-shadow: none; }
+.project-summary {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.project-summary article {
+  min-height: 86px;
+  padding: 18px 20px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  box-shadow: 0 16px 42px rgba(16,24,32,0.07);
+}
+.project-summary strong { display: block; margin-bottom: 6px; font-weight: 950; }
+.project-summary span { color: var(--steel); line-height: 1.35; }
+.budget-badges {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.budget-badges span {
+  min-height: 48px;
+  background: var(--dark);
+  color: #ffffff;
+  border-color: var(--dark);
+}
+.form-note {
+  display: block;
+  color: var(--steel);
+  line-height: 1.35;
+  text-align: center;
+}
+
+@media (min-width: 1000px) {
+  .services, .process, .projects, .budget {
+    justify-content: center;
+  }
+  .service-grid article {
+    min-height: 190px;
+  }
+  .process .steps article {
+    min-height: 170px;
+    justify-content: center;
+  }
+  .project-grid {
+    grid-auto-rows: 150px;
+  }
+  .budget {
+    align-items: center;
+  }
+  form {
+    padding: 24px;
+    gap: 12px;
+  }
+  input, textarea, select {
+    padding: 13px 16px;
+  }
+  textarea { min-height: 96px; }
+}
+
+@media (min-width: 1400px) {
+  .project-grid { grid-auto-rows: 158px; }
+  .process-intro { margin-bottom: 26px; }
+  .steps { gap: 18px; }
+  .steps article { padding: 24px; }
+}
+
+@media (max-width: 820px) {
+  .service-strip,
+  .project-summary,
+  .budget-badges {
+    grid-template-columns: 1fr;
+  }
+  .process-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
