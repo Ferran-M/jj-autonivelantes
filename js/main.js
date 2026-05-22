@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const destinationEmail = 'ferranmendezcardona@gmail.com';
   let isSending = false;
+  let lastSentSignature = '';
+  let lastSentAt = 0;
 
   function setMessage(text, type = '') {
     if (!feedback) return;
@@ -90,6 +92,16 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    const signature = JSON.stringify({ nombre, telefono, email, preferencia, zona, tipo, mensaje });
+    const now = Date.now();
+
+    // Evita que el mismo formulario se mande varias veces seguidas por doble clic,
+    // recarga rápida o varios eventos del navegador.
+    if (signature === lastSentSignature && now - lastSentAt < 15000) {
+      setMessage('La solicitud ya se está enviando. Espera unos segundos.', 'success');
+      return;
+    }
+
     const payload = {
       _subject: `Solicitud de presupuesto - ${nombre}`,
       _template: 'table',
@@ -107,6 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     isSending = true;
+    lastSentSignature = signature;
+    lastSentAt = now;
     button.disabled = true;
     const originalText = button.textContent;
     button.textContent = 'Enviando...';
@@ -139,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // El formulario se controla SOLO desde el evento submit.
+  // No añadimos listener al botón para evitar envíos duplicados.
   form.addEventListener('submit', sendDirectRequest);
-  button.addEventListener('click', sendDirectRequest);
 });
