@@ -161,18 +161,24 @@ footer span { color: rgba(255,255,255,0.66); }
 .photo-projects .project-photo:hover img { transform: scale(1.04); }
 
 
-/* Ajustes extra para que las páginas interiores no tengan scroll innecesario en escritorio */
+/* Ajustes extra para evitar scroll innecesario en páginas interiores de escritorio */
 html, body { overflow-x: hidden; }
-@media (min-width: 1000px) and (min-height: 760px) {
-  .services, .process, .projects, .budget { min-height: calc(100vh - 69px - 54px); }
+@media (min-width: 1000px) {
+  main { min-height: 100vh; display: flex; flex-direction: column; }
+  .nav { flex: 0 0 auto; }
+  .section { flex: 1 0 auto; padding-top: 20px; padding-bottom: 20px; }
+  .services, .process, .projects, .budget { min-height: 0; }
+  footer { flex: 0 0 auto; padding-top: 10px; padding-bottom: 10px; }
+  .section-header { margin-bottom: 14px; }
+  h2 { font-size: clamp(1.75rem, 3vw, 3rem); }
+  .lead, p { line-height: 1.4; }
+  .service-grid article { min-height: 150px; padding: 16px; }
+  .project-grid { grid-auto-rows: 112px; }
+  .cta-band { padding-top: 16px; padding-bottom: 16px; }
+  .budget { padding-top: 20px; padding-bottom: 20px; }
 }
-@media (min-width: 1000px) and (max-height: 900px) {
-  .section { padding-top: 24px; padding-bottom: 24px; }
-  .section-header { margin-bottom: 16px; }
-  h2 { font-size: clamp(1.8rem, 3vw, 3rem); }
-  .lead, p { line-height: 1.45; }
-  .service-grid article { min-height: 165px; }
-  .project-grid { grid-auto-rows: 126px; }
-  .cta-band { padding-top: 18px; padding-bottom: 18px; }
-  .budget { padding-top: 22px; padding-bottom: 22px; }
+@media (min-width: 1400px) {
+  .section { padding-top: 26px; padding-bottom: 26px; }
+  .service-grid article { min-height: 164px; }
+  .project-grid { grid-auto-rows: 122px; }
 }
