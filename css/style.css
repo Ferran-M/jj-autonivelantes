@@ -407,3 +407,14 @@ button.menu-toggle { min-height: 44px; border-radius: 14px; padding: 0; }
   .brand small { font-size: 0.76rem; }
   .nav nav a.budget-link { width: 100%; }
 }
+
+
+/* Versión v11: corrección menú móvil y marca */
+.menu-toggle span { transition: transform 0.2s ease, opacity 0.2s ease; }
+.nav.nav-open .menu-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav.nav-open .menu-toggle span:nth-child(2) { opacity: 0; }
+.nav.nav-open .menu-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+@media (max-width: 820px) {
+  .nav { position: sticky; }
+  .nav.nav-open nav { display: flex; }
+}

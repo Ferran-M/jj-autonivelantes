@@ -7,13 +7,23 @@ document.addEventListener('DOMContentLoaded', () => {
     menuToggle.addEventListener('click', () => {
       const isOpen = nav.classList.toggle('nav-open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
     });
 
     mainMenu.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         nav.classList.remove('nav-open');
         menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Abrir menú');
       });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!nav.contains(event.target)) {
+        nav.classList.remove('nav-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Abrir menú');
+      }
     });
   }
 
@@ -23,7 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!form || !button) return;
 
-  function openGmailRequest() {
+  let opening = false;
+
+  function openGmailRequest(event) {
+    if (event) event.preventDefault();
+    if (opening) return;
+
     const data = new FormData(form);
     const nombre = (data.get('nombre') || '').toString().trim();
     const telefono = (data.get('telefono') || '').toString().trim();
@@ -36,6 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    opening = true;
+    setTimeout(() => { opening = false; }, 1000);
+
     const subject = `Solicitud de presupuesto - ${nombre}`;
     const body = [
       'Nueva solicitud de presupuesto desde la web:',
@@ -47,8 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '',
       'Detalles:',
       mensaje || 'No indicado'
-    ].join('
-');
+    ].join('\n');
 
     const params = new URLSearchParams({
       view: 'cm',
@@ -64,5 +81,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   button.addEventListener('click', openGmailRequest);
-  form.addEventListener('submit', (event) => { event.preventDefault(); openGmailRequest(); });
+  form.addEventListener('submit', openGmailRequest);
 });
