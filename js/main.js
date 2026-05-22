@@ -32,9 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
       mensaje || 'No indicado'
     ].join('\n');
 
-    const mailto = `mailto:ferranmendezcardona@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent('ferranmendezcardona@gmail.com')}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    if (feedback) feedback.textContent = 'Se abrirá tu aplicación de correo con la solicitud preparada.';
-    window.location.href = mailto;
+    if (feedback) feedback.textContent = 'Se abrirá Gmail en una pestaña nueva con la solicitud preparada.';
+
+    const gmailWindow = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+    if (!gmailWindow) {
+      window.location.href = gmailUrl;
+    }
   });
 });
