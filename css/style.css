@@ -1161,3 +1161,20 @@ button.menu-toggle { min-height: 44px; border-radius: 14px; padding: 0; }
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Versión v22: envío directo del formulario sin abrir Gmail */
+#sendRequest:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}
+
+.form-message.success {
+  color: #137333;
+  font-weight: 850;
+}
+
+.form-message.error {
+  color: #b42318;
+  font-weight: 850;
+}

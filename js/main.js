@@ -33,71 +33,112 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!form || !button) return;
 
-  let opening = false;
+  const destinationEmail = 'ferranmendezcardona@gmail.com';
+  let isSending = false;
 
-  function setMessage(text) {
-    if (feedback) feedback.textContent = text;
+  function setMessage(text, type = '') {
+    if (!feedback) return;
+    feedback.textContent = text;
+    feedback.classList.remove('success', 'error');
+    if (type) feedback.classList.add(type);
   }
 
-  function openGmailRequest(event) {
+  function getCleanValue(data, field) {
+    return (data.get(field) || '').toString().trim();
+  }
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  async function sendDirectRequest(event) {
     if (event) event.preventDefault();
-    if (opening) return;
+    if (isSending) return;
 
     const data = new FormData(form);
-    const nombre = (data.get('nombre') || '').toString().trim();
-    const telefono = (data.get('telefono') || '').toString().trim();
-    const email = (data.get('email') || '').toString().trim();
-    const preferencia = (data.get('preferencia') || '').toString().trim();
-    const zona = (data.get('zona') || '').toString().trim();
-    const tipo = (data.get('tipo') || '').toString().trim();
-    const mensaje = (data.get('mensaje') || '').toString().trim();
+    const nombre = getCleanValue(data, 'nombre');
+    const telefono = getCleanValue(data, 'telefono');
+    const email = getCleanValue(data, 'email');
+    const preferencia = getCleanValue(data, 'preferencia');
+    const zona = getCleanValue(data, 'zona');
+    const tipo = getCleanValue(data, 'tipo');
+    const mensaje = getCleanValue(data, 'mensaje');
 
     if (!nombre || !preferencia || !tipo) {
-      setMessage('Rellena nombre, preferencia de contacto y tipo de trabajo.');
+      setMessage('Rellena nombre, preferencia de contacto y tipo de trabajo.', 'error');
       return;
     }
 
     if (preferencia === 'Teléfono' && !telefono) {
-      setMessage('Indica un teléfono si prefieres que te contacten por teléfono.');
+      setMessage('Indica un teléfono si prefieres que te contacten por teléfono.', 'error');
       return;
     }
 
-    if (preferencia === 'Correo electrónico' && !email) {
-      setMessage('Indica un correo electrónico si prefieres que te contacten por email.');
+    if (preferencia === 'Correo electrónico') {
+      if (!email) {
+        setMessage('Indica un correo electrónico si prefieres que te contacten por email.', 'error');
+        return;
+      }
+      if (!validateEmail(email)) {
+        setMessage('Escribe un correo electrónico válido.', 'error');
+        return;
+      }
+    }
+
+    if (email && !validateEmail(email)) {
+      setMessage('Escribe un correo electrónico válido o deja el campo vacío.', 'error');
       return;
     }
 
-    opening = true;
-    setTimeout(() => { opening = false; }, 1000);
+    const payload = {
+      _subject: `Solicitud de presupuesto - ${nombre}`,
+      _template: 'table',
+      _captcha: 'false',
+      _replyto: email || destinationEmail,
+      email: email || destinationEmail,
+      Nombre: nombre,
+      Telefono: telefono || 'No indicado',
+      Email: email || 'No indicado',
+      'Preferencia de contacto': preferencia,
+      'Zona de la obra': zona || 'No indicado',
+      'Tipo de trabajo': tipo,
+      Detalles: mensaje || 'No indicado',
+      Origen: window.location.href
+    };
 
-    const subject = `Solicitud de presupuesto - ${nombre}`;
-    const body = [
-      'Nueva solicitud de presupuesto desde la web:',
-      '',
-      `Nombre: ${nombre}`,
-      `Teléfono: ${telefono || 'No indicado'}`,
-      `Correo electrónico: ${email || 'No indicado'}`,
-      `Preferencia de contacto: ${preferencia}`,
-      `Zona de la obra: ${zona || 'No indicado'}`,
-      `Tipo de trabajo: ${tipo}`,
-      '',
-      'Detalles:',
-      mensaje || 'No indicado'
-    ].join('\n');
+    isSending = true;
+    button.disabled = true;
+    const originalText = button.textContent;
+    button.textContent = 'Enviando...';
+    setMessage('Enviando solicitud...', '');
 
-    const params = new URLSearchParams({
-      view: 'cm',
-      fs: '1',
-      to: 'ferranmendezcardona@gmail.com',
-      su: subject,
-      body
-    });
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${destinationEmail}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
 
-    window.open(`https://mail.google.com/mail/?${params.toString()}`, '_blank', 'noopener,noreferrer');
+      const result = await response.json().catch(() => ({}));
 
-    setMessage('Se ha abierto Gmail con la solicitud preparada. Solo falta pulsar Enviar.');
+      if (!response.ok || result.success === false || result.success === 'false') {
+        throw new Error(result.message || 'No se pudo enviar la solicitud.');
+      }
+
+      form.reset();
+      setMessage('Solicitud enviada correctamente. Te contactaremos lo antes posible.', 'success');
+    } catch (error) {
+      setMessage('No se ha podido enviar automáticamente. Escríbenos a ferranmendezcardona@gmail.com.', 'error');
+    } finally {
+      isSending = false;
+      button.disabled = false;
+      button.textContent = originalText;
+    }
   }
 
-  button.addEventListener('click', openGmailRequest);
-  form.addEventListener('submit', openGmailRequest);
+  form.addEventListener('submit', sendDirectRequest);
+  button.addEventListener('click', sendDirectRequest);
 });
