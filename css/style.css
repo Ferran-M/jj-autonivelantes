@@ -791,3 +791,120 @@ button.menu-toggle { min-height: 44px; border-radius: 14px; padding: 0; }
     border-radius: 26px;
   }
 }
+
+/* Versión v18: servicios y trabajos más compactos, sin scroll innecesario */
+.brand small { color: var(--steel); }
+
+@media (min-width: 1000px) {
+  .services .section-header {
+    margin-bottom: 16px;
+  }
+  .services .section-header h2 {
+    max-width: 900px;
+    font-size: clamp(1.75rem, 2.65vw, 2.85rem);
+  }
+  .services .section-header p:not(.label) {
+    max-width: 760px;
+    font-size: 0.96rem;
+  }
+  .services-showcase {
+    min-height: 0;
+    grid-template-columns: minmax(0, 0.98fr) minmax(360px, 1.02fr);
+    gap: 18px;
+  }
+  .service-main-card {
+    min-height: 285px;
+    padding: 28px 30px;
+  }
+  .service-main-card h3 {
+    margin: 28px 0 12px;
+    font-size: clamp(2rem, 3.2vw, 3.25rem);
+  }
+  .service-main-card p {
+    font-size: 0.98rem;
+    line-height: 1.4;
+  }
+  .service-checks {
+    margin-top: 18px;
+    gap: 8px;
+  }
+  .service-checks span {
+    min-height: 32px;
+    padding: 0 12px;
+    font-size: 0.8rem;
+  }
+  .service-side-list {
+    gap: 12px;
+  }
+  .service-line-card {
+    min-height: 92px;
+    padding: 16px 18px;
+    grid-template-columns: 62px minmax(0, 1fr);
+  }
+  .service-line-card h3 {
+    font-size: clamp(1.05rem, 1.35vw, 1.3rem);
+    margin-bottom: 6px;
+  }
+  .service-line-card p {
+    font-size: 0.9rem;
+    line-height: 1.32;
+  }
+}
+
+@media (min-width: 1400px) {
+  .service-main-card {
+    min-height: 310px;
+    padding: 30px 34px;
+  }
+  .service-line-card {
+    min-height: 100px;
+  }
+}
+
+.projects .section-header {
+  margin-bottom: 14px;
+}
+.project-gallery {
+  gap: 16px;
+}
+.project-photo-card {
+  min-height: clamp(240px, 24vw, 360px);
+  background: #0f1720;
+}
+.project-photo-card img {
+  object-fit: contain;
+  object-position: center center;
+  transform: none;
+  background: #0f1720;
+}
+.project-photo-card:hover img {
+  transform: none;
+}
+.project-summary {
+  margin-top: 14px;
+}
+.project-summary article {
+  min-height: 68px;
+  padding: 14px 16px;
+}
+.project-summary strong {
+  margin-bottom: 3px;
+}
+.project-summary span {
+  font-size: 0.9rem;
+}
+
+@media (min-width: 1000px) {
+  .projects .section-header h2 {
+    font-size: clamp(1.9rem, 2.8vw, 3rem);
+  }
+  .project-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .project-photo-card {
+    min-height: 280px;
+  }
+}
