@@ -26,23 +26,23 @@
 <a class="active" href="presupuesto.html">Presupuesto</a>
         </nav>
       </header>
-      <section class="cta-band">
+      <section class="cta-band compact-band">
         <div>
           <p class="label">Mejor precio · Trato directo · Sin compromiso</p>
-          <h2>¿Tienes una obra o reforma? Calculamos tu presupuesto.</h2>
+          <h2>Solicita tu presupuesto.</h2>
         </div>
       </section>
       <section id="presupuesto" class="section budget">
         <div>
           <p class="label">Contacto</p>
           <h2>Presupuesto sin compromiso al mejor precio.</h2>
-          <p>Cuéntanos los metros aproximados, la zona y el tipo de trabajo. Te daremos una valoración clara y sin compromiso.</p>
+          <p>Cuéntanos la zona, los metros aproximados y el tipo de trabajo.</p>
           <div class="contact-box">
             <span>Email: <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ferranmendezcardona%40gmail.com" target="_blank" rel="noopener noreferrer">ferranmendezcardona@gmail.com</a></span>
             <span>Especialidad: autonivelante, hormigón aligerado y piscinas</span>
           </div>
         </div>
-        <form id="contactForm">
+        <form id="contactForm" action="javascript:void(0)" novalidate>
           <input name="nombre" type="text" placeholder="Nombre" aria-label="Nombre" required />
           <input name="telefono" type="tel" placeholder="Teléfono" aria-label="Teléfono" required />
           <input name="zona" type="text" placeholder="Ciudad / zona de la obra" aria-label="Ciudad o zona de la obra" />
@@ -55,7 +55,7 @@
             <option>Otro</option>
           </select>
           <textarea name="mensaje" placeholder="Metros aproximados y detalles del trabajo" aria-label="Detalles del proyecto"></textarea>
-          <button type="submit">Enviar solicitud</button>
+          <button type="button" id="sendRequest">Enviar solicitud</button>
           <p class="form-message" id="formMessage" aria-live="polite"></p>
         </form>
       </section>

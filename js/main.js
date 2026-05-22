@@ -1,18 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('#contactForm');
+  const button = document.querySelector('#sendRequest');
+  const feedback = document.querySelector('#formMessage');
 
-  if (!form) return;
+  if (!form || !button) return;
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-
+  function openGmailRequest() {
     const data = new FormData(form);
     const nombre = (data.get('nombre') || '').toString().trim();
     const telefono = (data.get('telefono') || '').toString().trim();
     const zona = (data.get('zona') || '').toString().trim();
     const tipo = (data.get('tipo') || '').toString().trim();
     const mensaje = (data.get('mensaje') || '').toString().trim();
-    const feedback = document.querySelector('#formMessage');
 
     if (!nombre || !telefono || !tipo) {
       if (feedback) feedback.textContent = 'Rellena nombre, teléfono y tipo de trabajo.';
@@ -32,16 +31,25 @@ document.addEventListener('DOMContentLoaded', () => {
       mensaje || 'No indicado'
     ].join('\n');
 
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent('ferranmendezcardona@gmail.com')}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const params = new URLSearchParams({
+      view: 'cm',
+      fs: '1',
+      to: 'ferranmendezcardona@gmail.com',
+      su: subject,
+      body
+    });
 
-    const gmailWindow = window.open(gmailUrl, 'gmailSolicitudJjAutonivelantes');
+    window.open(`https://mail.google.com/mail/?${params.toString()}`, '_blank', 'noopener,noreferrer');
 
-    if (gmailWindow) {
-      gmailWindow.opener = null;
-      gmailWindow.focus();
-      if (feedback) feedback.textContent = 'Se ha abierto Gmail con la solicitud preparada. Solo falta pulsar Enviar.';
-    } else if (feedback) {
-      feedback.textContent = 'El navegador ha bloqueado la pestaña de Gmail. Permite ventanas emergentes para esta web e inténtalo de nuevo.';
+    if (feedback) {
+      feedback.textContent = 'Se ha abierto Gmail con la solicitud preparada. Solo falta pulsar Enviar.';
     }
+  }
+
+  button.addEventListener('click', openGmailRequest);
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    openGmailRequest();
   });
 });
