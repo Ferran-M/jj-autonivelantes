@@ -34,11 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent('ferranmendezcardona@gmail.com')}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    if (feedback) feedback.textContent = 'Se abrirá Gmail en una pestaña nueva con la solicitud preparada.';
+    const gmailWindow = window.open(gmailUrl, 'gmailSolicitudJjAutonivelantes');
 
-    const gmailWindow = window.open(gmailUrl, '_blank', 'noopener,noreferrer');
-    if (!gmailWindow) {
-      window.location.href = gmailUrl;
+    if (gmailWindow) {
+      gmailWindow.opener = null;
+      gmailWindow.focus();
+      if (feedback) feedback.textContent = 'Se ha abierto Gmail con la solicitud preparada. Solo falta pulsar Enviar.';
+    } else if (feedback) {
+      feedback.textContent = 'El navegador ha bloqueado la pestaña de Gmail. Permite ventanas emergentes para esta web e inténtalo de nuevo.';
     }
   });
 });
