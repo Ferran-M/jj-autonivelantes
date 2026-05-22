@@ -38,24 +38,25 @@
           <h2>Presupuesto sin compromiso al mejor precio.</h2>
           <p>Cuéntanos los metros aproximados, la zona y el tipo de trabajo. Te daremos una valoración clara y sin compromiso.</p>
           <div class="contact-box">
-            <span>Teléfono / WhatsApp: añadir número</span>
-            <span>Email: añadir correo</span>
+            <span>Email: <a href="mailto:ferranmendezcardona@gmail.com">ferranmendezcardona@gmail.com</a></span>
             <span>Especialidad: autonivelante, hormigón aligerado y piscinas</span>
           </div>
         </div>
-        <form>
-          <input type="text" placeholder="Nombre" aria-label="Nombre" />
-          <input type="tel" placeholder="Teléfono" aria-label="Teléfono" />
-          <input type="text" placeholder="Ciudad / zona de la obra" aria-label="Ciudad o zona de la obra" />
-          <select aria-label="Tipo de trabajo">
+        <form id="contactForm">
+          <input name="nombre" type="text" placeholder="Nombre" aria-label="Nombre" required />
+          <input name="telefono" type="tel" placeholder="Teléfono" aria-label="Teléfono" required />
+          <input name="zona" type="text" placeholder="Ciudad / zona de la obra" aria-label="Ciudad o zona de la obra" />
+          <select name="tipo" aria-label="Tipo de trabajo" required>
             <option value="" disabled selected>Tipo de trabajo</option>
-            <option>Vivienda</option>
-            <option>Local comercial</option>
-            <option>Nave / industria</option>
+            <option>Autonivelante</option>
+            <option>Hormigón aligerado</option>
+            <option>Gunitado de piscina</option>
+            <option>Piscina de arena</option>
             <option>Otro</option>
           </select>
-          <textarea placeholder="Metros aproximados y detalles del suelo" aria-label="Detalles del proyecto"></textarea>
-          <button type="submit">Quiero mi presupuesto</button>
+          <textarea name="mensaje" placeholder="Metros aproximados y detalles del trabajo" aria-label="Detalles del proyecto"></textarea>
+          <button type="submit">Enviar solicitud</button>
+          <p class="form-message" id="formMessage" aria-live="polite"></p>
         </form>
       </section>
       <footer><strong>Autonivelantes J J Morales</strong><span>Nivelación, autonivelante, hormigón aligerado y piscinas.</span></footer>
