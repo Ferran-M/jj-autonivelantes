@@ -296,3 +296,62 @@ html, body { overflow-x: hidden; }
     align-items: flex-start;
   }
 }
+
+
+/* Versión v9: servicios más grandes, sin bloques extra, y presupuesto destacado */
+.nav nav a.budget-link {
+  background: var(--orange);
+  color: #ffffff !important;
+  padding: 8px 16px;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px rgba(244, 123, 32, 0.24);
+}
+.nav nav a.budget-link:hover {
+  background: var(--orange-dark);
+  color: #ffffff !important;
+}
+.nav nav a.budget-link.active {
+  background: var(--dark);
+  color: #ffffff !important;
+}
+
+@media (min-width: 1000px) {
+  .services .section-header {
+    margin-bottom: 28px;
+  }
+  .services .section-header h2 {
+    max-width: 980px;
+  }
+  .service-grid {
+    gap: 20px;
+  }
+  .service-grid article {
+    min-height: 285px;
+    padding: 28px;
+  }
+  .service-grid h3 {
+    font-size: 1.16rem;
+  }
+  .service-grid p {
+    font-size: 0.96rem;
+    line-height: 1.5;
+  }
+  .process .steps article {
+    min-height: 205px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .service-grid article {
+    min-height: 335px;
+    padding: 32px;
+  }
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+  }
+  .process .steps article {
+    min-height: 235px;
+  }
+}
