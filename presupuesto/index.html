@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Presupuesto | Autonivelantes JJ Morales</title>
   <meta name="description" content="Especialistas en nivelación con autonivelante, hormigón aligerado, gunitado de piscinas y piscinas de arena." />
-  <link rel="stylesheet" href="../css/style.css?v=20" />
+  <link rel="stylesheet" href="../css/style.css?v=21" />
 </head>
 <body>
   <main>
@@ -40,12 +40,24 @@
           <div class="budget-badges"><span>Sin compromiso</span><span>Mejor precio</span><span>Trato directo</span></div>
         </div>
         <form id="contactForm" action="javascript:void(0)" novalidate>
-          <input name="nombre" type="text" placeholder="Nombre" aria-label="Nombre" required />
-          <input name="telefono" type="tel" placeholder="Teléfono" aria-label="Teléfono" required />
-          <input name="zona" type="text" placeholder="Ciudad / zona de la obra" aria-label="Ciudad o zona de la obra" />
-          <select name="tipo" aria-label="Tipo de trabajo" required>
-            <option value="" disabled selected>Tipo de trabajo</option><option>Autonivelante</option><option>Hormigón aligerado</option><option>Gunitado de piscina</option><option>Piscina de arena</option><option>Otro</option>
-          </select>
+          <div class="form-row">
+            <input name="nombre" type="text" placeholder="Nombre" aria-label="Nombre" required />
+            <input name="telefono" type="tel" placeholder="Teléfono" aria-label="Teléfono" />
+          </div>
+          <div class="form-row">
+            <input name="email" type="email" placeholder="Correo electrónico" aria-label="Correo electrónico" />
+            <select name="preferencia" aria-label="Preferencia de contacto" required>
+              <option value="" disabled selected>Prefiero que me contacten por...</option>
+              <option>Teléfono</option>
+              <option>Correo electrónico</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <input name="zona" type="text" placeholder="Ciudad / zona de la obra" aria-label="Ciudad o zona de la obra" />
+            <select name="tipo" aria-label="Tipo de trabajo" required>
+              <option value="" disabled selected>Tipo de trabajo</option><option>Autonivelante</option><option>Hormigón aligerado</option><option>Gunitado de piscina</option><option>Piscina de arena</option><option>Otro</option>
+            </select>
+          </div>
           <textarea name="mensaje" placeholder="Metros aproximados y detalles del trabajo" aria-label="Detalles del proyecto"></textarea>
           <button type="button" id="sendRequest">Enviar solicitud</button>
           <p class="form-message" id="formMessage" aria-live="polite"></p>
@@ -53,6 +65,6 @@
       </section>
       <footer><strong>Autonivelantes JJ Morales</strong><span>Nivelación, autonivelante, hormigón aligerado y piscinas.</span></footer>
   </main>
-  <script src="../js/main.js?v=20"></script>
+  <script src="../js/main.js?v=21"></script>
 </body>
 </html>
