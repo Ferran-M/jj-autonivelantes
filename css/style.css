@@ -1179,26 +1179,40 @@ button.menu-toggle { min-height: 44px; border-radius: 14px; padding: 0; }
   font-weight: 850;
 }
 
-/* Versión v26: footer responsive en móvil */
-@media (max-width: 700px) {
+/* Versión v27: ajuste responsive del footer en PC, sin cambiar móvil */
+@media (min-width: 821px) {
   footer {
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(220px, 0.8fr) minmax(320px, 1.2fr);
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 6px;
-    padding: 16px 18px;
+    column-gap: 28px;
+    row-gap: 8px;
   }
 
-  footer strong,
-  footer span {
-    width: 100%;
-    display: block;
+  footer strong {
+    min-width: 0;
+    line-height: 1.2;
   }
 
   footer span {
-    max-width: 320px;
+    justify-self: end;
+    max-width: 620px;
+    text-align: right;
     line-height: 1.35;
-    font-size: 0.92rem;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 821px) and (max-width: 980px) {
+  footer {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  footer span {
+    justify-self: center;
+    text-align: center;
+    max-width: 560px;
   }
 }
