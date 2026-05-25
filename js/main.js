@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   form.dataset.jjSubmitBound = 'true';
   window.__JJ_AUTONIVELANTES_FORM_BOUND__ = true;
 
-  const destinationEmail = 'ferranmendezcardona@gmail.com';
+  const destinationEmail = 'jjautonivelantes@gmail.com';
   let isSending = false;
   let lastSentSignature = '';
   let lastSentAt = 0;
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
       form.reset();
       setMessage('Solicitud enviada correctamente. Te contactaremos lo antes posible.', 'success');
     } catch (error) {
-      setMessage('No se ha podido enviar automáticamente. Escríbenos a ferranmendezcardona@gmail.com.', 'error');
+      setMessage('No se ha podido enviar automáticamente. Escríbenos a jjautonivelantes@gmail.com.', 'error');
       isSending = false;
       button.disabled = false;
       button.textContent = originalText;
